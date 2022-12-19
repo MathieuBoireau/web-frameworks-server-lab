@@ -1,0 +1,77 @@
+//- update
+
+form(method='POST', action=action, enctype="multipart/form-data")
+  div.form-group
+    label.form-label.text-bold(for='input-title') Titre
+      span.text-error.px-1 *
+    - var errorClass = errorsForm && errorsForm.title?"is-error":""
+    input.form-input#input-title(class=errorClass,
+      placeholder='Titre', name='title', value=annonceChange.title, autofocus=(formSubmit === 'Publier'))
+    if errorsForm && errorsForm.title
+      p.form-input-hint Titre requis
+
+  div.form-group
+    label.form-label.text-bold Statut de publication
+    label.form-switch
+      input(type='checkbox', name='publication_status' value='publiée' checked=(annonceChange.publication_status === 'publiée'))
+      i.form-icon
+      | Publiée
+
+  div.form-group
+    label.form-label.text-bold Type de bien
+    each adtype in ['vente', 'location']
+      label.form-radio
+        - var isChecked = (annonceChange.type && adtype === annonceChange.type.toLowerCase())
+        if (!annonceChange.type || annonceChange.type === undefined) && adtype == 'vente'
+          - isChecked = true
+        input(type='radio', name='type', value=adtype checked=isChecked)
+        i.form-icon
+        | #{ adtype }
+
+  div.form-group
+    label.form-label.text-bold Statut du bien
+    each status in ['disponible', 'loué', 'vendu']
+      label.form-radio
+        - var isChecked = (annonceChange.status && status === annonceChange.status.toLowerCase())
+        if (!annonceChange.type || annonceChange.status === undefined) && status == 'disponible'
+          - isChecked = true
+        input(type='radio', name='status', value=status checked=isChecked)
+        i.form-icon
+        | #{status}
+
+    div.form-group
+      label.form-label.text-bold(for='input-description') Description
+        span.text-error.px-1 *
+      - errorClass = errorsForm && errorsForm.description?"is-error":""
+      textarea.form-input#input-textarea(class=errorClass, type='textarea', name='description', placeholder='Description', rows='3')
+        | #{ annonceChange.description }
+      if errorsForm && errorsForm.description
+        p.form-input-hint Description requise
+
+    div.form-group
+      - errorClass = errorsForm && errorsForm.price?"is-error":""
+      label.form-label.text-bold(for='input-price') Prix
+        span.text-error.px-1 *
+      div.input-group
+        input.form-input#input-price(class=errorClass, name='price', inputmode='numeric', pattern='[0-9]*' value=annonceChange.price)
+        span.input-group.addon.d-inline-flex.center €
+      if errorsForm && errorsForm.price
+        p.form-input-hint.text-error Prix requis
+
+    div.form-group
+      - const date = new Date(annonceChange.date);
+      - const dateStr = isNaN(date)?"":date.toISOString();
+      label.form-label.text-bold(for='input-date') Date de disponibilité
+        span.text-error.px-1 *
+      - errorClass = errorsForm && errorsForm.date?"is-error":""
+      input.form-input#input-date(class=errorClass, type='date', name='date', value=dateStr.substring(0, dateStr.indexOf('T')))
+      if errorsForm && errorsForm.date
+        p.form-input-hint.text-error Date requise
+
+    div.form-group
+      label.form-label.text-bold(for='input-photos') Photos
+      input.form-input#input-photos(type='file', name='photos' accept='image/*' multiple)
+      +images(previewId)
+
+    div.form-group
+      button.btn.btn-primary(type='submit')= formSubmit

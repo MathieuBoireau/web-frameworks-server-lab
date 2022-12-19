@@ -1,0 +1,16 @@
+block menu
+  div.sticky.menu-header
+    header.container.grid-xl
+      nav.navbar.navbar-container
+        section.navbar-section
+          a.navbar-brand(href="/") LeBeauCoin
+        section.navbar-section
+          ul.navbar-nav
+            if user
+              div.d-inline-flex.center
+                span.px-2 Bienvenue, #{ user.username }
+                if user.permission === 'agent'
+                  a.btn.btn-primary(href="/addAdvert") Ajouter une annonce
+                a.btn.btn-error.ml-2(href='/logout') Se déconnecter
+            else
+              a.btn.btn-primary(href="/login") Se connecter

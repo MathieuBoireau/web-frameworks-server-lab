@@ -1,0 +1,8 @@
+extends index
+
+block adverts
+  include includes/advert.pug
+  +images('preview')
+  include includes/questions.pug
+  if user && user.permission === 'agent'
+    include includes/formUpdate.pug

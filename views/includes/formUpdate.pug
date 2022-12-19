@@ -1,0 +1,13 @@
+//- update, delete
+
+//- delete
+h2 Mettre à jour l'annonce
+
+form(action=`${annonce._id}/delete` method='POST')
+  div.form-group
+    button.btn.btn-error(type='submit') Supprimer l'annonce
+
+//- update
+- const formSubmit = 'Mettre à jour'
+- const previewId = 'input-preview'
+include form.pug

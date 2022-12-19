@@ -1,0 +1,27 @@
+mixin interactionForm(action, textLabel, buttonLabel)
+  form(method='POST', action=`/annonces/${annonce.id}/${action}`)
+    div.form-group
+      label.form-label(for='input-text')= textLabel
+      textarea.form-input#input-text(name='text', placeholder=textLabel, rows='2')
+
+    div.form-group
+      button.btn.btn-primary(type='submit')= buttonLabel
+
+h2 Questions
+
+if user && user.permission === 'user'
+  +interactionForm('question', 'Poser une question', 'Envoyer')
+each question, i in annonce.questions
+  div.divider
+  div.border-gray.mb-1
+    h6.text-bold= question.author
+    span.question= question.title
+  if question.answer && question.answer.title
+    div.border-gray.response
+      h6.text-bold= question.answer.author
+      span= question.answer.title
+  else
+    if user && user.permission === 'agent'
+      +interactionForm(`question/${i}`, 'Répondre à la question', 'Répondre')
+
+div.divider

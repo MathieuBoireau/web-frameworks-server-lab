@@ -1,0 +1,26 @@
+extends layout
+
+mixin images(id)
+  div.preview(id=id, data-id=annonce?annonce.id:0, data-count=photoCount)
+
+block scripts
+  //- include in forms
+  if annonceChange
+    script(src='/javascripts/photo.js')
+
+include includes/menu.pug
+
+block content
+  h1.text-center= title
+  div.container.grid-xl
+    block adverts
+      if annonces && annonces.every(annonce => annonce.publication_status === 'non publiée')
+        div.empty
+          p.empty-title.h2 Aucune annonce publiée
+          if user && user.permission === 'agent'
+            a.btn.btn-lg.btn-primary(href="/addAdvert") Ajouter une annonce
+          else
+            p.empty-subtitle Les nouvelles annonces s'afficheront ici
+      each annonce in annonces
+        if annonce.publication_status === 'publiée' || user && user.permission === 'agent'
+          include includes/advert.pug

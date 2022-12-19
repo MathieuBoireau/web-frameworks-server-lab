@@ -1,0 +1,36 @@
+//- variables: val, index
+
+div.card.m-1
+  div.card-image
+    img(src=`/annonces/${annonce.id}/images/1`, height=400)
+    - var photoCount = annonce.photos ? annonce.photos.length : 0
+    if photoCount != 0
+      .image-label= `${photoCount} image${photoCount > 1 ? 's':''}`
+  //- Annonce
+  div.container
+    //- titre
+    div.card-header
+      div.columns
+        div.col-10
+          if user && user.permission === 'agent' && annonce.publication_status === 'non publiée'
+            span.label.label-secondary Non publiée
+          h2.text-left.font-xl #{ annonce.title }
+        div.col-2.text-right
+          span #{ annonce.status }
+      h6 #{ annonce.type }
+      -
+        var price = new Intl.NumberFormat('fr-FR', {
+          style: 'currency', currency:'EUR', minimumFractionDigits:0, maximumFractionDigits:0}).format(annonce.price)
+      h5.text-primary Prix : #{ price }
+
+    //- description
+    div.card-body
+      p #{ annonce.description }
+
+    //- Lien vers annonce
+    div.card-footer
+      div
+        span Disponiblité : #{ new Intl.DateTimeFormat('fr-FR').format(annonce.date) }
+      if readOnly
+        a.btn.btn-primary.text-bold(href=`annonces/${annonce._id}`)
+          span Consulter l'annonce

@@ -1,0 +1,22 @@
+[
+	{
+		"username": "Agent1",
+		"password": "123456",
+		"permission": "agent"
+	},
+	{
+		"username": "Agent2",
+		"password": "",
+		"permission": "agent"
+	},
+	{
+		"username": "User1",
+		"password": "abcdefgh",
+		"permission": "user"
+	},
+	{
+		"username": "User2",
+		"password": "",
+		"permission": "user"
+	}
+]

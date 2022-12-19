@@ -1,0 +1,19 @@
+extends layout
+
+include includes/menu.pug
+
+block content
+  div.container.grid-xl
+    h1.text-center Se connecter
+    form(method='POST', action='/login')
+
+      div.form-group
+        label.form-label(for='input-name') Nom
+        input.form-input#input-name(name='username')
+
+      div.form-group
+        label.form-label(for='input-password') Mot de passe
+        input.form-input#input-password(name='password', type='password')
+
+      div.form-group
+        button.btn.btn-primary(type='submit') Se connecter
